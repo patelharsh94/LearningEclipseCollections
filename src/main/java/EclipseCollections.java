@@ -53,7 +53,7 @@ public class EclipseCollections {
 
         // rejecting values
         startTime = System.nanoTime();
-        MutableList<Integer> lowerThanFifty = numberList.select(num -> num <= 50);
+        MutableList<Integer> lowerThanFifty = numberList.reject(num -> num > 50);
         endTime = System.nanoTime();
         System.out.println("Numbers lower than or equal to 50: " + lowerThanFifty.toString());
         System.out.println("Total time to run: " + (endTime - startTime));
@@ -97,23 +97,22 @@ public class EclipseCollections {
     public void collect() {
 
         // EC implementation
-
-        startTime = System.nanoTime();
         MutableList<Address> addressList = Lists.mutable.of(
                 new Address("Street Address 1", "Street 1", "12345"),
                 new Address("Street Address 2", "Street 2", "54321"),
                 new Address("Street Address 3", "Street 3", "67899"));
-        MutableList<String> addressCollection = addressList.collect(addr -> addr.street);
+        startTime = System.nanoTime();
+        MutableList<String> streetNameCollection = addressList.collect(address -> address.street);
         endTime = System.nanoTime();
-        System.out.println("Address collection: " + addressCollection + " Total Time: " + (endTime - startTime));
+        System.out.println("Address collection: " + streetNameCollection + " Total Time: " + (endTime - startTime));
 
         // Java 8 stream
         startTime = System.nanoTime();
-        addressCollection = addressList.stream()
-                .map(person -> person.street)
+        streetNameCollection = addressList.stream()
+                .map(address -> address.street)
                 .collect(Collectors2.toList());
         endTime = System.nanoTime();
-        System.out.println("Address collection: " + addressCollection + " Total Time: " + (endTime - startTime));
+        System.out.println("Address collection: " + streetNameCollection + " Total Time: " + (endTime - startTime));
     }
 
     @Test
@@ -126,7 +125,7 @@ public class EclipseCollections {
 
     @Test
     public void detect() {
-        // Finds the first element that satisfies a givan logical expression.
+        // Finds the first element that satisfies a given logical expression.
         // EC lib
         MutableList<Address> addressList = Lists.mutable.of(
                 new Address("Street Address 1", "Street 1", "12345"),
